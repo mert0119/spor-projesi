@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Hatırlatıcılar</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-bell"></i> Hatırlatıcılar</h4>
+
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h6><i class="fas fa-plus-circle"></i> Yeni Hatırlatıcı</h6>
+            <form th:action="@{/reminder/add}" method="post">
+                <div class="row g-2">
+                    <div class="col-md-3"><input type="text" name="title" class="form-control" placeholder="Başlık" required></div>
+                    <div class="col-md-3"><input type="text" name="message" class="form-control" placeholder="Mesaj (opsiyonel)"></div>
+                    <div class="col-md-2"><input type="time" name="reminderTime" class="form-control" required></div>
+                    <div class="col-md-2">
+                        <select name="repeatType" class="form-select">
+                            <option value="daily">Her Gün</option>
+                            <option value="weekdays">Hafta İçi</option>
+                            <option value="custom">Özel</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2"><button type="submit" class="btn btn-primary w-100"><i class="fas fa-plus"></i> Ekle</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${reminders.isEmpty()}" class="text-muted">Henüz hatırlatıcı yok.</div>
+    <div th:each="r : ${reminders}" class="card glass-card mb-2">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+                <strong th:text="${r.title}">Başlık</strong>
+                <span class="badge" th:classappend="${r.isActive ? 'bg-success' : 'bg-secondary'}" th:text="${r.isActive ? 'Aktif' : 'Pasif'}"></span>
+                <br><small class="text-muted">
+                    <i class="fas fa-clock"></i> <span th:text="${r.reminderTime}">08:00</span> -
+                    <span th:text="${r.repeatType == 'daily' ? 'Her Gün' : (r.repeatType == 'weekdays' ? 'Hafta İçi' : 'Özel')}">Her Gün</span>
+                </small>
+                <span th:if="${!r.message.isEmpty()}" class="d-block small text-muted" th:text="${r.message}"></span>
+            </div>
+            <div>
+                <a th:href="@{/reminder/toggle/{id}(id=${r.id})}" class="btn btn-sm btn-outline-warning"><i class="fas fa-toggle-on"></i></a>
+                <a th:href="@{/reminder/delete/{id}(id=${r.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

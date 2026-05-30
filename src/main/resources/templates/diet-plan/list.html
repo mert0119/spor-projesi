@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Diyet Planları</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-clipboard-list"></i> Diyet Planları</h4>
+    <a th:href="@{/diet-plan/create}" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Yeni Plan</a>
+
+    <div th:if="${plans.isEmpty()}" class="text-muted">Henüz plan yok.</div>
+    <div th:each="plan : ${plans}" class="card glass-card mb-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 th:text="${plan.name}">Plan</h5>
+                    <span class="badge" th:classappend="${plan.isActive ? 'bg-success' : 'bg-secondary'}" th:text="${plan.isActive ? 'Aktif' : 'Pasif'}">Aktif</span>
+                    <span class="badge bg-info" th:text="${plan.dailyCalories + ' kcal'}">2000 kcal</span>
+                </div>
+                <div>
+                    <a th:href="@{/diet-plan/toggle/{id}(id=${plan.id})}" class="btn btn-sm btn-outline-warning"><i class="fas fa-toggle-on"></i></a>
+                    <a th:href="@{/diet-plan/delete/{id}(id=${plan.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+            <div class="row mt-3 small">
+                <div class="col-md-3"><strong>Protein:</strong> <span th:text="${plan.proteinRatio+'%'}"></span> (<span th:text="${plan.proteinGrams}">0</span>g)</div>
+                <div class="col-md-3"><strong>Karbonhidrat:</strong> <span th:text="${plan.carbRatio+'%'}"></span> (<span th:text="${plan.carbGrams}">0</span>g)</div>
+                <div class="col-md-3"><strong>Yağ:</strong> <span th:text="${plan.fatRatio+'%'}"></span> (<span th:text="${plan.fatGrams}">0</span>g)</div>
+            </div>
+            <div class="row mt-2 small" th:if="${!plan.breakfast.isEmpty()}">
+                <div class="col-md-3"><strong>Kahvaltı:</strong><p th:text="${plan.breakfast}"></p></div>
+                <div class="col-md-3"><strong>Öğle:</strong><p th:text="${plan.lunch}"></p></div>
+                <div class="col-md-3"><strong>Akşam:</strong><p th:text="${plan.dinner}"></p></div>
+                <div class="col-md-3"><strong>Atıştırmalık:</strong><p th:text="${plan.snacks}"></p></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

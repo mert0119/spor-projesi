@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Yemek Geçmişi</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-history"></i> Yemek Geçmişi</h4>
+    <table class="table table-dark table-striped">
+        <thead><tr><th>Tarih</th><th>Öğün</th><th>Yemek</th><th>Kalori</th><th>Protein</th><th>Karb</th><th>Yağ</th></tr></thead>
+        <tbody>
+            <tr th:each="log : ${logs.content}">
+                <td th:text="${log.date}"></td>
+                <td th:text="${log.mealType}"></td>
+                <td th:text="${log.foodName}"></td>
+                <td th:text="${log.calories}"></td>
+                <td th:text="${log.protein}"></td>
+                <td th:text="${log.carbs}"></td>
+                <td th:text="${log.fat}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div th:if="${logs.totalPages > 1}" class="d-flex justify-content-center">
+        <a th:if="${logs.number > 0}" th:href="@{/food/history(page=${logs.number - 1})}" class="btn btn-sm btn-outline-light me-2">Önceki</a>
+        <a th:if="${logs.number < logs.totalPages - 1}" th:href="@{/food/history(page=${logs.number + 1})}" class="btn btn-sm btn-outline-light">Sonraki</a>
+    </div>
+    <a th:href="@{/food}" class="btn btn-outline-light mt-3"><i class="fas fa-arrow-left"></i> Geri</a>
+</div>
+</body>
+</html>

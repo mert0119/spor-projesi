@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Hesaplayıcı</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-calculator"></i> Sağlık Hesaplayıcı</h4>
+
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <form th:action="@{/calculator}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-4"><label class="form-label">Kilo (kg)</label><input type="number" name="weight" class="form-control" step="0.1" th:value="${user.weight}" required></div>
+                    <div class="col-md-4"><label class="form-label">Boy (cm)</label><input type="number" name="height" class="form-control" step="0.1" th:value="${user.height}" required></div>
+                    <div class="col-md-4"><label class="form-label">Yaş</label><input type="number" name="age" class="form-control" th:value="${user.age}" required></div>
+                    <div class="col-md-6"><label class="form-label">Cinsiyet</label>
+                        <select name="gender" class="form-select"><option value="erkek" th:selected="${user.gender == 'erkek'}">Erkek</option><option value="kadin" th:selected="${user.gender == 'kadin'}">Kadın</option></select>
+                    </div>
+                    <div class="col-md-6"><label class="form-label">Aktivite Seviyesi</label>
+                        <select name="activityLevel" class="form-select">
+                            <option value="dusuk" th:selected="${user.activityLevel == 'dusuk'}">Düşük (Hareketsiz)</option>
+                            <option value="orta" th:selected="${user.activityLevel == 'orta'}">Orta (Haftada 3-4 gün)</option>
+                            <option value="yuksek" th:selected="${user.activityLevel == 'yuksek'}">Yüksek (Haftada 5-6 gün)</option>
+                            <option value="cok_yuksek" th:selected="${user.activityLevel == 'cok_yuksek'}">Çok Yüksek (Profesyonel)</option>
+                        </select>
+                    </div>
+                    <div class="col-12"><button type="submit" class="btn btn-primary btn-lg w-100"><i class="fas fa-calculator"></i> Hesapla</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${results != null}">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card glass-card text-center"><div class="card-body">
+                    <h6>BMI (Vücut Kitle İndeksi)</h6>
+                    <h2 th:text="${results.bmi}" th:style="'color:'+${results.bmiColor}">0</h2>
+                    <span class="badge" th:style="'background:'+${results.bmiColor}" th:text="${results.bmiCategory}">Normal</span>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card glass-card text-center"><div class="card-body">
+                    <h6>BMR (Bazal Metabolizma)</h6>
+                    <h2 th:text="${results.bmr}">0</h2><small>kcal/gün</small>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card glass-card text-center"><div class="card-body">
+                    <h6>TDEE (Günlük Harcama)</h6>
+                    <h2 th:text="${results.tdee}">0</h2><small>kcal/gün</small>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card glass-card text-center"><div class="card-body">
+                    <h6>İdeal Kilo</h6>
+                    <h2 th:text="${results.idealWeight}">0</h2><small>kg</small>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card glass-card text-center"><div class="card-body">
+                    <h6>Tahmini Yağ Oranı</h6>
+                    <h2 th:text="${results.bodyFat}">0</h2><small>%</small>
+                </div></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card glass-card"><div class="card-body">
+                    <h6>Kalori Önerileri</h6>
+                    <p class="mb-1">🔴 Kilo verme: <strong th:text="${results.caloriesLose}">0</strong> kcal</p>
+                    <p class="mb-1">🟢 Koruma: <strong th:text="${results.caloriesMaintain}">0</strong> kcal</p>
+                    <p class="mb-0">🔵 Kilo alma: <strong th:text="${results.caloriesGain}">0</strong> kcal</p>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

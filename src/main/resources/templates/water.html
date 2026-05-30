@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Su Takibi</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-tint"></i> Su Takibi</h4>
+
+    <div class="date-nav mb-3">
+        <a th:href="@{/water(date=${selectedDate.minusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-left"></i></a>
+        <input type="date" th:value="${selectedDate}" onchange="location.href='/water?date='+this.value" class="form-control form-control-sm d-inline-block" style="width:auto">
+        <a th:href="@{/water(date=${selectedDate.plusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- Su Ozet -->
+    <div class="card glass-card mb-4">
+        <div class="card-body text-center">
+            <div class="water-circle mb-3">
+                <div class="water-fill" th:style="'height:'+${percentage}+'%'"></div>
+                <div class="water-text">
+                    <strong th:text="${totalLitre}+'L'">0L</strong><br>
+                    <small th:text="'/ '+${goalLitre}+'L'">/ 2.5L</small>
+                </div>
+            </div>
+            <div class="progress mb-2" style="height:20px"><div class="progress-bar bg-info" th:style="'width:'+${percentage}+'%'" th:text="${percentage}+'%'"></div></div>
+            <p th:text="${totalMl}+' ml / '+${goalMl}+' ml'">0 ml / 2500 ml</p>
+        </div>
+    </div>
+
+    <!-- Hizli Ekleme -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h6><i class="fas fa-plus-circle"></i> Su Ekle</h6>
+            <div class="row g-2">
+                <div class="col-4">
+                    <form th:action="@{/water/add}" method="post">
+                        <input type="hidden" name="date" th:value="${selectedDate}"><input type="hidden" name="amountType" value="glass">
+                        <button type="submit" class="btn btn-outline-info w-100"><i class="fas fa-glass-water"></i><br>1 Bardak<br><small>200ml</small></button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <form th:action="@{/water/add}" method="post">
+                        <input type="hidden" name="date" th:value="${selectedDate}"><input type="hidden" name="amountType" value="bottle_small">
+                        <button type="submit" class="btn btn-outline-info w-100"><i class="fas fa-bottle-water"></i><br>Küçük Şişe<br><small>500ml</small></button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <form th:action="@{/water/add}" method="post">
+                        <input type="hidden" name="date" th:value="${selectedDate}"><input type="hidden" name="amountType" value="bottle_large">
+                        <button type="submit" class="btn btn-outline-info w-100"><i class="fas fa-bottle-water"></i><br>Büyük Şişe<br><small>1000ml</small></button>
+                    </form>
+                </div>
+            </div>
+            <form th:action="@{/water/add}" method="post" class="mt-3">
+                <input type="hidden" name="date" th:value="${selectedDate}"><input type="hidden" name="amountType" value="custom">
+                <div class="input-group">
+                    <input type="number" name="amountMl" class="form-control" placeholder="Özel miktar (ml)" value="200">
+                    <button type="submit" class="btn btn-info"><i class="fas fa-plus"></i> Ekle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kayitlar -->
+    <div class="card glass-card">
+        <div class="card-body">
+            <h6>Bugünkü Kayıtlar</h6>
+            <div th:if="${logs.isEmpty()}" class="text-muted small">Henüz kayıt yok.</div>
+            <div th:each="log : ${logs}" class="d-flex justify-content-between align-items-center py-2 border-bottom border-secondary">
+                <span><i class="fas fa-tint text-info"></i> <span th:text="${log.amountMl}+'ml'"></span></span>
+                <a th:href="@{/water/delete/{id}(id=${log.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

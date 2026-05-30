@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Yemek Takibi</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-utensils"></i> Yemek Takibi</h4>
+
+    <!-- Tarih Secici -->
+    <div class="date-nav mb-3">
+        <a th:href="@{/food(date=${selectedDate.minusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-left"></i></a>
+        <input type="date" th:value="${selectedDate}" onchange="location.href='/food?date='+this.value" class="form-control form-control-sm d-inline-block" style="width:auto">
+        <a th:href="@{/food(date=${selectedDate.plusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- Gunluk Ozet -->
+    <div class="row g-2 mb-3">
+        <div class="col-3"><div class="mini-stat"><strong th:text="${totalCalories}">0</strong><small>kcal</small></div></div>
+        <div class="col-3"><div class="mini-stat"><strong th:text="${totalProtein}">0</strong><small>Protein</small></div></div>
+        <div class="col-3"><div class="mini-stat"><strong th:text="${totalCarbs}">0</strong><small>Karb</small></div></div>
+        <div class="col-3"><div class="mini-stat"><strong th:text="${totalFat}">0</strong><small>Yağ</small></div></div>
+    </div>
+
+    <!-- Yemek Ekleme Formu -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h6><i class="fas fa-plus-circle"></i> Yemek Ekle</h6>
+            <form th:action="@{/food/add}" method="post">
+                <input type="hidden" name="date" th:value="${selectedDate}">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <input type="text" name="foodName" class="form-control" placeholder="Yemek adı" required>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="mealType" class="form-select">
+                            <option value="kahvalti">Kahvaltı</option>
+                            <option value="ogle">Öğle</option>
+                            <option value="aksam">Akşam</option>
+                            <option value="atistirmalik">Atıştırmalık</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1"><input type="number" name="calories" class="form-control" placeholder="kcal" step="0.1"></div>
+                    <div class="col-md-1"><input type="number" name="protein" class="form-control" placeholder="Protein" step="0.1"></div>
+                    <div class="col-md-1"><input type="number" name="carbs" class="form-control" placeholder="Karb" step="0.1"></div>
+                    <div class="col-md-1"><input type="number" name="fat" class="form-control" placeholder="Yağ" step="0.1"></div>
+                    <div class="col-md-1"><input type="number" name="portion" class="form-control" placeholder="Pors." value="1" step="0.1"></div>
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary w-100"><i class="fas fa-plus"></i></button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ogun Listesi -->
+    <div th:each="entry : ${mealNames}">
+        <div class="card glass-card mb-3">
+            <div class="card-body">
+                <h6 th:text="${entry.value}">Öğün</h6>
+                <div th:if="${meals[entry.key].isEmpty()}" class="text-muted small">Henüz kayıt yok.</div>
+                <table th:if="${!meals[entry.key].isEmpty()}" class="table table-dark table-sm">
+                    <thead><tr><th>Yemek</th><th>Kalori</th><th>Protein</th><th>Karb</th><th>Yağ</th><th></th></tr></thead>
+                    <tbody>
+                        <tr th:each="log : ${meals[entry.key]}">
+                            <td th:text="${log.foodName}">Yemek</td>
+                            <td th:text="${log.calories}">0</td>
+                            <td th:text="${log.protein}">0</td>
+                            <td th:text="${log.carbs}">0</td>
+                            <td th:text="${log.fat}">0</td>
+                            <td><a th:href="@{/food/delete/{id}(id=${log.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/food/history}" class="btn btn-outline-light"><i class="fas fa-history"></i> Geçmiş</a>
+</div>
+</body>
+</html>

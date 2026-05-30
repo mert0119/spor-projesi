@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Profil</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-user"></i> Profil</h4>
+
+    <div class="card glass-card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 th:text="${user.firstName + ' ' + user.lastName}">Ad Soyad</h5>
+                    <p class="text-muted" th:text="'@'+${user.username}">@username</p>
+                    <p><i class="fas fa-envelope"></i> <span th:text="${user.email}">email</span></p>
+                    <p th:if="${user.age != null}"><i class="fas fa-birthday-cake"></i> <span th:text="${user.age + ' yaş'}">0 yaş</span></p>
+                    <p th:if="${user.gender != null}"><i class="fas fa-venus-mars"></i> <span th:text="${user.gender == 'erkek' ? 'Erkek' : 'Kadın'}">Cinsiyet</span></p>
+                </div>
+                <div class="col-md-6">
+                    <div class="row g-2">
+                        <div class="col-6"><div class="mini-stat"><strong th:text="${user.height != null ? user.height + ' cm' : '-'}">-</strong><small>Boy</small></div></div>
+                        <div class="col-6"><div class="mini-stat"><strong th:text="${user.weight != null ? user.weight + ' kg' : '-'}">-</strong><small>Kilo</small></div></div>
+                        <div class="col-6"><div class="mini-stat"><strong th:text="${user.targetWeight != null ? user.targetWeight + ' kg' : '-'}">-</strong><small>Hedef Kilo</small></div></div>
+                        <div class="col-6"><div class="mini-stat"><strong th:text="${user.calculateBmi() != null ? user.calculateBmi() : '-'}">-</strong><small>BMI</small></div></div>
+                    </div>
+                    <div class="mt-3">
+                        <p><strong>Günlük Kalori Hedefi:</strong> <span th:text="${user.dailyCalorieGoal}">2000</span> kcal</p>
+                        <p><strong>Günlük Su Hedefi:</strong> <span th:text="${user.dailyWaterGoal}">2.5</span> L</p>
+                        <p><strong>Makro Hedefler:</strong> P:<span th:text="${user.proteinGoal}">150</span>g / K:<span th:text="${user.carbsGoal}">200</span>g / Y:<span th:text="${user.fatGoal}">65</span>g</p>
+                    </div>
+                </div>
+            </div>
+            <a th:href="@{/profile/edit}" class="btn btn-primary mt-3"><i class="fas fa-edit"></i> Düzenle</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

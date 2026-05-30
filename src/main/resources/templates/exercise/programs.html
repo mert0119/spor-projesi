@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Antrenman Programları</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-list"></i> Hazır Antrenman Programları</h4>
+
+    <!-- Baslangic -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h5>🌱 Başlangıç Programı</h5>
+            <p class="text-muted">Spora yeni başlayanlar için haftada 3 gün program</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>Pazartesi</h6>
+                    <ul class="list-unstyled"><li>Şınav - 3×10</li><li>Squat - 3×12</li><li>Dumbbell Row - 3×10</li><li>Lateral Raise - 3×12</li></ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Çarşamba</h6>
+                    <ul class="list-unstyled"><li>Bench Press - 3×10</li><li>Leg Press - 3×12</li><li>Lat Pulldown - 3×10</li><li>Biceps Curl - 3×12</li></ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Cuma</h6>
+                    <ul class="list-unstyled"><li>Dips - 3×8</li><li>Lunge - 3×10</li><li>Barbell Row - 3×10</li><li>Triceps Pushdown - 3×12</li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orta -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h5>⚡ Orta Seviye Programı</h5>
+            <p class="text-muted">3-6 aylık deneyimi olanlar için haftada 4 gün bölünmüş program</p>
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>Pzt - Göğüs/Triceps</h6>
+                    <ul class="list-unstyled"><li>Bench Press - 4×10</li><li>İncline Press - 3×10</li><li>Cable Crossover - 3×12</li><li>Skull Crusher - 3×12</li><li>Triceps Pushdown - 3×12</li></ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Salı - Sırt/Biceps</h6>
+                    <ul class="list-unstyled"><li>Barfiks - 4×8</li><li>Barbell Row - 4×10</li><li>Cable Row - 3×12</li><li>Biceps Curl - 3×12</li><li>Hammer Curl - 3×12</li></ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Perş - Bacak</h6>
+                    <ul class="list-unstyled"><li>Squat - 4×10</li><li>Leg Press - 3×12</li><li>Leg Curl - 3×12</li><li>Leg Extension - 3×12</li><li>Calf Raise - 4×15</li></ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Cuma - Omuz/Karın</h6>
+                    <ul class="list-unstyled"><li>Military Press - 4×10</li><li>Lateral Raise - 3×12</li><li>Front Raise - 3×12</li><li>Reverse Fly - 3×12</li><li>Shrug - 3×15</li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ileri -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h5>🔥 İleri Seviye Programı</h5>
+            <p class="text-muted">1+ yıl deneyimi olanlar için haftada 5 gün yoğun program</p>
+            <div class="row">
+                <div class="col-md-2"><h6>Pzt - Göğüs</h6><ul class="list-unstyled"><li>Bench Press - 5×8</li><li>İncline Press - 4×10</li><li>Dumbbell Press - 4×10</li><li>Cable Crossover - 3×12</li><li>Dips - 3×12</li></ul></div>
+                <div class="col-md-2"><h6>Salı - Sırt</h6><ul class="list-unstyled"><li>Deadlift - 5×5</li><li>Barfiks - 4×10</li><li>Barbell Row - 4×10</li><li>Dumbbell Row - 3×12</li><li>Lat Pulldown - 3×12</li></ul></div>
+                <div class="col-md-2"><h6>Çarş - Bacak</h6><ul class="list-unstyled"><li>Squat - 5×8</li><li>Leg Press - 4×12</li><li>Lunge - 3×10</li><li>Leg Curl - 4×12</li><li>Calf Raise - 5×15</li></ul></div>
+                <div class="col-md-3"><h6>Perş - Omuz</h6><ul class="list-unstyled"><li>Military Press - 5×8</li><li>Arnold Press - 4×10</li><li>Lateral Raise - 4×12</li><li>Reverse Fly - 3×12</li><li>Shrug - 4×12</li></ul></div>
+                <div class="col-md-3"><h6>Cuma - Kol</h6><ul class="list-unstyled"><li>Biceps Curl - 4×10</li><li>Hammer Curl - 3×12</li><li>Preacher Curl - 3×12</li><li>Skull Crusher - 4×10</li><li>Triceps Pushdown - 3×12</li></ul></div>
+            </div>
+        </div>
+    </div>
+
+    <a th:href="@{/exercise}" class="btn btn-outline-light"><i class="fas fa-arrow-left"></i> Geri</a>
+</div>
+</body>
+</html>

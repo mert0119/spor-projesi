@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Profil Düzenle</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-edit"></i> Profil Düzenle</h4>
+    <div class="card glass-card">
+        <div class="card-body">
+            <form th:action="@{/profile/edit}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Ad</label><input type="text" name="firstName" class="form-control" th:value="${user.firstName}"></div>
+                    <div class="col-md-6"><label class="form-label">Soyad</label><input type="text" name="lastName" class="form-control" th:value="${user.lastName}"></div>
+                    <div class="col-md-4"><label class="form-label">Yaş</label><input type="number" name="age" class="form-control" th:value="${user.age}"></div>
+                    <div class="col-md-4"><label class="form-label">Cinsiyet</label>
+                        <select name="gender" class="form-select"><option value="erkek" th:selected="${user.gender == 'erkek'}">Erkek</option><option value="kadin" th:selected="${user.gender == 'kadin'}">Kadın</option></select>
+                    </div>
+                    <div class="col-md-4"><label class="form-label">Aktivite Seviyesi</label>
+                        <select name="activityLevel" class="form-select">
+                            <option value="dusuk" th:selected="${user.activityLevel == 'dusuk'}">Düşük</option>
+                            <option value="orta" th:selected="${user.activityLevel == 'orta'}">Orta</option>
+                            <option value="yuksek" th:selected="${user.activityLevel == 'yuksek'}">Yüksek</option>
+                            <option value="cok_yuksek" th:selected="${user.activityLevel == 'cok_yuksek'}">Çok Yüksek</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4"><label class="form-label">Boy (cm)</label><input type="number" name="height" class="form-control" step="0.1" th:value="${user.height}"></div>
+                    <div class="col-md-4"><label class="form-label">Kilo (kg)</label><input type="number" name="weight" class="form-control" step="0.1" th:value="${user.weight}"></div>
+                    <div class="col-md-4"><label class="form-label">Hedef Kilo (kg)</label><input type="number" name="targetWeight" class="form-control" step="0.1" th:value="${user.targetWeight}"></div>
+                    <div class="col-md-4"><label class="form-label">Hedef</label>
+                        <select name="goal" class="form-select"><option value="kilo_verme" th:selected="${user.goal == 'kilo_verme'}">Kilo Verme</option><option value="kilo_alma" th:selected="${user.goal == 'kilo_alma'}">Kilo Alma</option><option value="koruma" th:selected="${user.goal == 'koruma'}">Koruma</option></select>
+                    </div>
+                    <div class="col-md-4"><label class="form-label">Protein Hedefi (g)</label><input type="number" name="proteinGoal" class="form-control" th:value="${user.proteinGoal}"></div>
+                    <div class="col-md-4"><label class="form-label">Karb Hedefi (g)</label><input type="number" name="carbsGoal" class="form-control" th:value="${user.carbsGoal}"></div>
+                    <!-- Yag Hedefi -->
+                    <div class="col-md-4"><label class="form-label">Yağ Hedefi (g)</label><input type="number" name="fatGoal" class="form-control" th:value="${user.fatGoal}"></div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Kaydet</button>
+                        <a th:href="@{/profile}" class="btn btn-outline-light ms-2">İptal</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

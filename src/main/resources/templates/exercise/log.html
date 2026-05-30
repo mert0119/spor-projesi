@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Egzersiz Takibi</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-running"></i> Egzersiz Takibi</h4>
+
+    <div class="date-nav mb-3">
+        <a th:href="@{/exercise(date=${selectedDate.minusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-left"></i></a>
+        <input type="date" th:value="${selectedDate}" onchange="location.href='/exercise?date='+this.value" class="form-control form-control-sm d-inline-block" style="width:auto">
+        <a th:href="@{/exercise(date=${selectedDate.plusDays(1)})}" class="btn btn-sm btn-outline-light"><i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <div class="row g-2 mb-3">
+        <div class="col-6"><div class="mini-stat"><strong th:text="${totalCalories}">0</strong><small>kcal yakıldı</small></div></div>
+        <div class="col-6"><div class="mini-stat"><strong th:text="${totalDuration}">0</strong><small>dk egzersiz</small></div></div>
+    </div>
+
+    <!-- Egzersiz Ekleme -->
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h6><i class="fas fa-plus-circle"></i> Egzersiz Ekle</h6>
+            <form th:action="@{/exercise/add}" method="post">
+                <input type="hidden" name="date" th:value="${selectedDate}">
+                <div class="row g-2">
+                    <div class="col-md-3">
+                        <select name="category" class="form-select" id="categorySelect">
+                            <option value="">Kategori Seç</option>
+                            <option th:each="cat : ${categoryNames}" th:value="${cat.key}" th:text="${cat.value}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="exerciseName" class="form-select" id="exerciseSelect" required>
+                            <option value="">Egzersiz Seç</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1"><input type="number" name="sets" class="form-control" placeholder="Set"></div>
+                    <div class="col-md-1"><input type="number" name="reps" class="form-control" placeholder="Tekrar"></div>
+                    <div class="col-md-1"><input type="number" name="weightKg" class="form-control" placeholder="kg" step="0.5"></div>
+                    <div class="col-md-1"><input type="number" name="duration" class="form-control" placeholder="dk"></div>
+                    <div class="col-md-1"><input type="number" name="speed" class="form-control" placeholder="km/h" step="0.1"></div>
+                    <div class="col-md-1"><button type="submit" class="btn btn-primary w-100"><i class="fas fa-plus"></i></button></div>
+                </div>
+                <input type="hidden" name="incline" value="0">
+                <div class="mt-2"><input type="text" name="notes" class="form-control form-control-sm" placeholder="Notlar (opsiyonel)"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kayitlar -->
+    <div class="card glass-card mb-3">
+        <div class="card-body">
+            <h6>Günün Egzersizleri</h6>
+            <div th:if="${logs.isEmpty()}" class="text-muted small">Henüz kayıt yok.</div>
+            <table th:if="${!logs.isEmpty()}" class="table table-dark table-sm">
+                <thead><tr><th>Egzersiz</th><th>Kategori</th><th>Set×Tekrar</th><th>Ağırlık</th><th>Süre</th><th>Kalori</th><th></th></tr></thead>
+                <tbody>
+                    <tr th:each="log : ${logs}">
+                        <td th:text="${log.exerciseName}"></td>
+                        <td th:text="${log.category}"></td>
+                        <td th:text="${log.sets + '×' + log.reps}"></td>
+                        <td th:text="${log.weightKg + ' kg'}"></td>
+                        <td th:text="${log.duration + ' dk'}"></td>
+                        <td th:text="${log.caloriesBurned}"></td>
+                        <td><a th:href="@{/exercise/delete/{id}(id=${log.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <a th:href="@{/exercise/programs}" class="btn btn-outline-info"><i class="fas fa-list"></i> Programlar</a>
+        <a th:href="@{/exercise/history}" class="btn btn-outline-light"><i class="fas fa-history"></i> Geçmiş</a>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+<script th:inline="javascript">
+    const exercises = /*[[${exercises}]]*/ {};
+    document.getElementById('categorySelect').addEventListener('change', function() {
+        const sel = document.getElementById('exerciseSelect');
+        sel.innerHTML = '<option value="">Egzersiz Seç</option>';
+        const cat = this.value;
+        if (exercises[cat]) {
+            exercises[cat].forEach(e => {
+                const opt = document.createElement('option');
+                opt.value = e.name; opt.textContent = e.name;
+                sel.appendChild(opt);
+            });
+        }
+    });
+</script>
+</div>
+</body>
+</html>

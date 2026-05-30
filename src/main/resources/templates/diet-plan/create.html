@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Diyet Planı Oluştur</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-plus-circle"></i> Yeni Diyet Planı</h4>
+    <div class="card glass-card">
+        <div class="card-body">
+            <form th:action="@{/diet-plan/create}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Plan Adı</label><input type="text" name="name" class="form-control" required placeholder="Örn: Kilo Verme Planı"></div>
+                    <div class="col-md-3"><label class="form-label">Hedef</label>
+                        <select name="goal" class="form-select"><option value="kilo_verme">Kilo Verme</option><option value="kilo_alma">Kilo Alma</option><option value="koruma" selected>Koruma</option></select>
+                    </div>
+                    <div class="col-md-3"><label class="form-label">Günlük Kalori</label><input type="number" name="dailyCalories" class="form-control" value="2000"></div>
+                    <div class="col-md-4"><label class="form-label">Protein Oranı (%)</label><input type="number" name="proteinRatio" class="form-control" value="30" step="1"></div>
+                    <div class="col-md-4"><label class="form-label">Karbonhidrat Oranı (%)</label><input type="number" name="carbRatio" class="form-control" value="40" step="1"></div>
+                    <div class="col-md-4"><label class="form-label">Yağ Oranı (%)</label><input type="number" name="fatRatio" class="form-control" value="30" step="1"></div>
+                    <div class="col-md-6"><label class="form-label">Kahvaltı</label><textarea name="breakfast" class="form-control" rows="3" placeholder="Kahvaltı detayları..."></textarea></div>
+                    <div class="col-md-6"><label class="form-label">Öğle Yemeği</label><textarea name="lunch" class="form-control" rows="3" placeholder="Öğle yemeği detayları..."></textarea></div>
+                    <div class="col-md-6"><label class="form-label">Akşam Yemeği</label><textarea name="dinner" class="form-control" rows="3" placeholder="Akşam yemeği detayları..."></textarea></div>
+                    <div class="col-md-6"><label class="form-label">Atıştırmalıklar</label><textarea name="snacks" class="form-control" rows="3" placeholder="Ara öğün detayları..."></textarea></div>
+                    <div class="col-12"><label class="form-label">Notlar</label><textarea name="notes" class="form-control" rows="2" placeholder="Ek notlar..."></textarea></div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Oluştur</button>
+                        <a th:href="@{/diet-plan}" class="btn btn-outline-light ms-2">İptal</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

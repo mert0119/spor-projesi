@@ -1,16 +1,69 @@
-# spor-projesi
+# FitOl - Fitness & Diyet Takip Uygulaması (Java Spring Boot)
 
-Proje Hakkında
-Bu proje, bilgisayarlı görü (computer vision) ve doğal dil işleme (NLP) teknolojilerini kullanarak kullanıcıların fitness ve beslenme süreçlerini optimize eden bir uygulamadır. Kapsamlı bir dijital günlük işlevi görerek, kullanıcıların fiziksel dönüşümlerini ve günlük tüketimlerini yapay zeka destekli araçlarla takip etmelerini sağlar.
+Kişisel fitness ve diyet takip web uygulaması.
 
-Projenin Amacı
-Bireylerin sağlıklı yaşama adım atarken ihtiyaç duydukları kişisel antrenör ve beslenme desteğini yapay zeka aracılığıyla erişilebilir kılmak. Sistem, kullanıcıların yediklerini kolayca analiz etmesini, kendilerine en uygun antrenmanı bulmasını ve gelişimlerini somut görsellerle takip ederek motivasyonlarını yüksek tutmalarını amaçlamaktadır.
+## Teknolojiler
+- **Java 17** + **Spring Boot 3.2**
+- **Thymeleaf** (HTML template engine)
+- **Spring Security** (kullanıcı yetkilendirme)
+- **Spring Data JPA** (veritabanı ORM)
+- **H2 Database** (gömülü veritabanı - kurulum gerektirmez)
+- **Bootstrap 5** + **Chart.js** (frontend)
+- **Maven** (build aracı)
 
-🔬 Nasıl Çalışıyor?
-Girdi ve Veri Toplama: Kullanıcı fiziksel özelliklerini, hedeflerini sisteme girer ve dilerse güncel vücut fotoğrafını gelişim günlüğüne ekler.
+## Özellikler
+- 🔐 Kullanıcı kayıt/giriş sistemi (BCrypt şifreleme)
+- 📊 Dashboard - günlük özet ve grafikler
+- 🍽️ Yemek/kalori/makro takibi (öğün bazlı)
+- 💪 Egzersiz kaydı (120+ hazır egzersiz, 8 kategori)
+- 🏋️ Hazır antrenman programları (başlangıç, orta, ileri)
+- 💧 Su tüketimi takibi
+- 📏 Vücut ölçümleri
+- 🍽️ Diyet planı oluşturma
+- 🧮 BMI / BMR / TDEE / İdeal kilo hesaplayıcı
+- 📈 Detaylı raporlar ve grafikler
+- ⏰ Hatırlatıcı yönetimi
+- 👤 Profil yönetimi
 
-Görüntü İşleme ile Besin Analizi: Kullanıcı tüketeceği öğünün fotoğrafını çeker ve sisteme yükler.
+## Kurulum
 
-Tahmin ve Hesaplama: Eğitilmiş nesne tanıma modeli, tabaktaki yiyecekleri tespit ederek porsiyon büyüklüğüne göre kalori, protein, karbonhidrat ve yağ değerlerini saniyeler içinde çıkarır.
+### 1. Java 17 Kur
+[Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) veya
+[OpenJDK 17](https://adoptium.net/) indir ve kur.
 
-Dinamik Program Oluşturma: Kullanıcının hedeflerine (kilo verme, kas kazanımı vb.) ve günlük aldığı kalorilere göre yapay zeka, bir sonraki günün antrenman programını dinamik olarak ayarlar.
+### 2. Maven Kur
+[Maven İndir](https://maven.apache.org/download.cgi) ve PATH'e ekle.
+
+### 3. Projeyi Çalıştır
+```bash
+cd fitol
+mvn spring-boot:run
+```
+
+### 4. Tarayıcıdan Aç
+```
+http://localhost:8080
+```
+
+## Proje Yapısı
+```
+src/main/java/com/fitol/
+├── FitolApplication.java          # Ana uygulama
+├── config/SecurityConfig.java     # Güvenlik ayarları
+├── model/                         # Entity sınıfları (7 tablo)
+├── repository/                    # Veritabanı erişim (JPA Repository)
+├── service/                       # İş mantığı
+└── controller/                    # Web controller'ları (11 adet)
+
+src/main/resources/
+├── application.properties         # Uygulama ayarları
+├── templates/                     # Thymeleaf HTML şablonları
+└── static/                        # CSS, JS dosyaları
+```
+
+## Veritabanı
+H2 gömülü veritabanı kullanılır. Uygulama ilk çalıştırıldığında otomatik olarak tablo oluşturulur.
+H2 Console: `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:file:./data/fitoldb`)
+
+## Ekran Görüntüleri
+Uygulama koyu tema (dark mode) tasarımına sahiptir.

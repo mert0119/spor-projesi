@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Ana Sayfa</title></head>
+<body>
+<div layout:fragment="content">
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="motivation-card">
+                <h5><i class="fas fa-fire"></i> <span th:text="${motivation}">Motivasyon</span></h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ozet Kartlari -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="stat-card calories">
+                <div class="stat-icon"><i class="fas fa-fire-alt"></i></div>
+                <div class="stat-value" th:text="${dailyCalories}">0</div>
+                <div class="stat-label">Kalori (kcal)</div>
+                <div class="stat-goal">Hedef: <span th:text="${user.dailyCalorieGoal}">2000</span></div>
+                <div class="progress mt-2"><div class="progress-bar bg-warning" th:style="'width:' + ${calPct} + '%'"></div></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card protein">
+                <div class="stat-icon"><i class="fas fa-drumstick-bite"></i></div>
+                <div class="stat-value" th:text="${dailyProtein}">0</div>
+                <div class="stat-label">Protein (g)</div>
+                <div class="stat-goal">Hedef: <span th:text="${user.proteinGoal}">150</span>g</div>
+                <div class="progress mt-2"><div class="progress-bar bg-danger" th:style="'width:' + ${protPct} + '%'"></div></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card water">
+                <div class="stat-icon"><i class="fas fa-tint"></i></div>
+                <div class="stat-value" th:text="${dailyWaterLitre}">0</div>
+                <div class="stat-label">Su (L)</div>
+                <div class="stat-goal">Hedef: <span th:text="${user.dailyWaterGoal}">2.5</span>L</div>
+                <div class="progress mt-2"><div class="progress-bar bg-info" th:style="'width:' + ${waterPct} + '%'"></div></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card exercise">
+                <div class="stat-icon"><i class="fas fa-running"></i></div>
+                <div class="stat-value" th:text="${dailyExerciseCal}">0</div>
+                <div class="stat-label">Yakılan (kcal)</div>
+                <div class="stat-sub"><span th:text="${dailyExerciseMin}">0</span> dk egzersiz</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Makro ve Grafik -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card glass-card">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-chart-pie"></i> Makro Dağılımı</h6>
+                    <div class="macro-item"><span>Protein</span><span th:text="${dailyProtein} + 'g'">0g</span></div>
+                    <div class="progress mb-2"><div class="progress-bar bg-danger" th:style="'width:' + ${protPct} + '%'"></div></div>
+                    <div class="macro-item"><span>Karbonhidrat</span><span th:text="${dailyCarbs} + 'g'">0g</span></div>
+                    <div class="progress mb-2"><div class="progress-bar bg-warning" th:style="'width:' + ${carbPct} + '%'"></div></div>
+                    <div class="macro-item"><span>Yağ</span><span th:text="${dailyFat} + 'g'">0g</span></div>
+                    <div class="progress mb-2"><div class="progress-bar bg-success" th:style="'width:' + ${fatPct} + '%'"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card glass-card">
+                <div class="card-body">
+                    <h6 class="card-title"><i class="fas fa-chart-line"></i> Haftalık Kalori</h6>
+                    <canvas id="weeklyChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hizli Erisim -->
+    <div class="row g-3">
+        <div class="col-md-3 col-6"><a th:href="@{/food}" class="quick-link"><i class="fas fa-utensils"></i><span>Yemek Ekle</span></a></div>
+        <div class="col-md-3 col-6"><a th:href="@{/exercise}" class="quick-link"><i class="fas fa-dumbbell"></i><span>Egzersiz Ekle</span></a></div>
+        <div class="col-md-3 col-6"><a th:href="@{/water}" class="quick-link"><i class="fas fa-tint"></i><span>Su Ekle</span></a></div>
+        <div class="col-md-3 col-6"><a th:href="@{/measurement}" class="quick-link"><i class="fas fa-weight"></i><span>Ölçüm Ekle</span></a></div>
+    </div>
+</div>
+
+<div layout:fragment="scripts">
+<script th:inline="javascript">
+    const labels = /*[[${weeklyLabels}]]*/ [];
+    const data = /*[[${weeklyCalories}]]*/ [];
+    const ctx = document.getElementById('weeklyChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'bar', data: {
+                labels: labels,
+                datasets: [{ label: 'Kalori (kcal)', data: data, backgroundColor: 'rgba(255,165,0,0.6)', borderColor: 'rgba(255,165,0,1)', borderWidth: 1, borderRadius: 8 }]
+            }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#aaa' } }, x: { grid: { display: false }, ticks: { color: '#aaa' } } } }
+        });
+    }
+</script>
+</div>
+</body>
+</html>

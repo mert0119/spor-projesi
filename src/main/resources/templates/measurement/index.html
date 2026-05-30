@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}" lang="tr">
+<head><title>Vücut Ölçümleri</title></head>
+<body>
+<div layout:fragment="content">
+    <h4 class="page-title"><i class="fas fa-ruler"></i> Vücut Ölçümleri</h4>
+
+    <div class="card glass-card mb-4">
+        <div class="card-body">
+            <h6><i class="fas fa-plus-circle"></i> Yeni Ölçüm Ekle</h6>
+            <form th:action="@{/measurement/add}" method="post">
+                <div class="row g-2">
+                    <div class="col-md-3"><label class="form-label small">Tarih</label><input type="date" name="date" th:value="${today}" class="form-control"></div>
+                    <div class="col-md-3"><label class="form-label small">Kilo (kg)</label><input type="number" name="weight" class="form-control" step="0.1" placeholder="75.5"></div>
+                    <div class="col-md-3"><label class="form-label small">Bel (cm)</label><input type="number" name="waist" class="form-control" step="0.1"></div>
+                    <div class="col-md-3"><label class="form-label small">Göğüs (cm)</label><input type="number" name="chest" class="form-control" step="0.1"></div>
+                    <div class="col-md-3"><label class="form-label small">Kol (cm)</label><input type="number" name="arm" class="form-control" step="0.1"></div>
+                    <div class="col-md-3"><label class="form-label small">Bacak (cm)</label><input type="number" name="leg" class="form-control" step="0.1"></div>
+                    <div class="col-md-3"><label class="form-label small">Kalça (cm)</label><input type="number" name="hip" class="form-control" step="0.1"></div>
+                    <div class="col-md-3"><label class="form-label small">Yağ Oranı (%)</label><input type="number" name="bodyFat" class="form-control" step="0.1"></div>
+                    <div class="col-12"><input type="text" name="notes" class="form-control" placeholder="Notlar (opsiyonel)"></div>
+                    <div class="col-12"><button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Kaydet</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card glass-card">
+        <div class="card-body">
+            <h6>Ölçüm Geçmişi</h6>
+            <div th:if="${measurements.isEmpty()}" class="text-muted">Henüz ölçüm yok.</div>
+            <div class="table-responsive" th:if="${!measurements.isEmpty()}">
+                <table class="table table-dark table-sm">
+                    <thead><tr><th>Tarih</th><th>Kilo</th><th>Bel</th><th>Göğüs</th><th>Kol</th><th>Bacak</th><th>Kalça</th><th>Yağ%</th><th></th></tr></thead>
+                    <tbody>
+                        <tr th:each="m : ${measurements}">
+                            <td th:text="${m.date}"></td>
+                            <td th:text="${m.weight != null ? m.weight + ' kg' : '-'}"></td>
+                            <td th:text="${m.waist != null ? m.waist + ' cm' : '-'}"></td>
+                            <td th:text="${m.chest != null ? m.chest + ' cm' : '-'}"></td>
+                            <td th:text="${m.arm != null ? m.arm + ' cm' : '-'}"></td>
+                            <td th:text="${m.leg != null ? m.leg + ' cm' : '-'}"></td>
+                            <td th:text="${m.hip != null ? m.hip + ' cm' : '-'}"></td>
+                            <td th:text="${m.bodyFat != null ? m.bodyFat + '%' : '-'}"></td>
+                            <td><a th:href="@{/measurement/delete/{id}(id=${m.id})}" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
