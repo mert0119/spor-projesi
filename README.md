@@ -1,6 +1,6 @@
 # FitOl - Fitness & Diyet Takip Uygulaması (Java Spring Boot)
 
-Kişisel fitness ve diyet takip web uygulaması.
+Kişisel fitness ve diyet takip web u ygulaması.
 
 ## Teknolojiler
 - **Java 17** + **Spring Boot 3.2**
